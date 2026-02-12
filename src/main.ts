@@ -1,10 +1,10 @@
 import { FlowrAnalyzerBuilder } from '@eagleoutice/flowr/project/flowr-analyzer-builder';
 import { fileProtocol, requestFromInput } from '@eagleoutice/flowr/r-bridge/retriever.js';
 import { log, LogLevel } from '@eagleoutice/flowr/util/log';
-import {diffOfDataflowGraphs} from "@eagleoutice/flowr/dataflow/graph/diff-dataflow-graph";
-import {diffGraphsToMermaidUrl, graphToMermaidUrl} from "@eagleoutice/flowr/util/mermaid/dfg";
-import {ProblematicDiffInfo} from "@eagleoutice/flowr/util/diff-graph";
-import {NodeId} from "@eagleoutice/flowr/r-bridge/lang-4.x/ast/model/processing/node-id";
+import { diffOfDataflowGraphs } from "@eagleoutice/flowr/dataflow/graph/diff-dataflow-graph";
+import { diffGraphsToMermaidUrl } from "@eagleoutice/flowr/util/mermaid/dfg";
+import { ProblematicDiffInfo } from "@eagleoutice/flowr/util/diff-graph";
+import { NodeId } from "@eagleoutice/flowr/r-bridge/lang-4.x/ast/model/processing/node-id";
 
 
 function mapProblematicNodesToIds(problematic: readonly ProblematicDiffInfo[] | undefined): Set<NodeId> | undefined {
@@ -18,15 +18,15 @@ async function main(fileA: string, fileB: string) {
 
    const analyzer = await new FlowrAnalyzerBuilder()
       .setEngine('tree-sitter')
-      .add(fileProtocol + fileA)
       .build();
+   analyzer.addRequest(fileProtocol + fileA)
       
    const graphA = await analyzer.dataflow();
    
    analyzer.reset();
    
    // as an alternative, load the other file 
-   analyzer.context().addRequest(requestFromInput(fileProtocol + fileB));
+   analyzer.addRequest(requestFromInput(fileProtocol + fileB));
    
    const graphB = await analyzer.dataflow();
    
