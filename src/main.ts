@@ -1,7 +1,7 @@
 import { FlowrAnalyzerBuilder } from '@eagleoutice/flowr/project/flowr-analyzer-builder';
 import { fileProtocol, requestFromInput } from '@eagleoutice/flowr/r-bridge/retriever.js';
 import { log, LogLevel } from '@eagleoutice/flowr/util/log';
-import { diffOfDataflowGraphs } from "@eagleoutice/flowr/dataflow/graph/diff-dataflow-graph";
+import { Dataflow } from "@eagleoutice/flowr/dataflow/graph/df-helper";
 import { diffGraphsToMermaidUrl } from "@eagleoutice/flowr/util/mermaid/dfg";
 import { ProblematicDiffInfo } from "@eagleoutice/flowr/util/diff-graph";
 import { NodeId } from "@eagleoutice/flowr/r-bridge/lang-4.x/ast/model/processing/node-id";
@@ -30,7 +30,7 @@ async function main(fileA: string, fileB: string) {
    
    const graphB = await analyzer.dataflow();
    
-   const report = diffOfDataflowGraphs({
+   const report = Dataflow.diffGraphs({
        name: fileA, graph: graphA.graph
    }, {
        name: fileB, graph: graphB.graph

@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "main": "ts-node src/main.ts"
+    "main": "ts-node src/main.ts",
+    "build": "tsc --project . && esbuild --bundle dist/main.js --platform=node --tree-shaking=true --bundle --minify --external:clipboardy --target=node25 --outfile=dist/main.min.js && npm run build:copy-wasm",
+    "build:copy-wasm": "mkdir -p dist/node_modules/@eagleoutice/tree-sitter-r/ && mkdir -p dist/node_modules/web-tree-sitter && cp node_modules/@eagleoutice/tree-sitter-r/tree-sitter-r.wasm dist/node_modules/@eagleoutice/tree-sitter-r/  && cp node_modules/web-tree-sitter/tree-sitter.wasm dist/node_modules/web-tree-sitter/"
   },
   "keywords": [],
   "author": "",
@@ -12,9 +14,10 @@
   "devDependencies": {
     "@types/node": "^25.2.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "esbuild": "^0.28.0"
   },
   "dependencies": {
-    "@eagleoutice/flowr": "^2.9.9"
+    "@eagleoutice/flowr": "^2.10.2"
   }
 }
